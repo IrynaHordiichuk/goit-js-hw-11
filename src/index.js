@@ -38,13 +38,12 @@ return
 }
 
 function loadMoreHandler() {
-  
+  currentPage += 1;
   fetchImages(currentPage, currentValue).then(data =>{
     if((data.data.totalHits - currentPage * 40) <= 40){
       refs.loadMoreBtn.style.display = 'none';
       Notiflix.Report.warning("We're sorry, but you've reached the end of search results.");
     }
-    currentPage += 1;
     console.log(data.data.totalHits);
     galleryMarkup(data.data.hits)
   }
