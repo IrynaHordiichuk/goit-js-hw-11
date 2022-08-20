@@ -24,6 +24,7 @@ function submitHandler(event) {
   refs.loadMoreBtn.style.display = 'none';
   currentValue = event.currentTarget.elements.searchQuery.value;
   currentPage = 1;
+  refs.gallery.innerHTML = '';
   fetchImages(currentPage, currentValue).then(data =>{
     if(data.data.hits.length === 0){
 Notiflix.Report.info("Sorry, there are no images matching your search query. Please try again.");
