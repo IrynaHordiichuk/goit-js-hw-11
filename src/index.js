@@ -8,7 +8,6 @@ let currentValue = '';
 
 const refs = {
   form: document.querySelector('#search-form'),
-  //     input: document.querySelector('searchQuery'),
   gallery: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more-btn'),
 };
@@ -18,37 +17,39 @@ refs.loadMoreBtn.style.display = 'none';
 refs.form.addEventListener('submit', submitHandler);
 refs.loadMoreBtn.addEventListener('click', loadMoreHandler);
 
-
 function submitHandler(event) {
   event.preventDefault();
   refs.loadMoreBtn.style.display = 'none';
   currentValue = event.currentTarget.elements.searchQuery.value;
   currentPage = 1;
   refs.gallery.innerHTML = '';
-  fetchImages(currentPage, currentValue).then(data =>{
-    if(data.data.hits.length === 0){
-Notiflix.Report.info("Sorry, there are no images matching your search query. Please try again.");
-return
+  fetchImages(currentPage, currentValue).then(data => {
+    if (data.data.hits.length === 0) {
+      Notiflix.Report.info(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      return;
     }
-    
+
     galleryMarkup(data.data.hits);
-    if(data.data.totalHits > 40){ 
-      refs.loadMoreBtn.style.display = 'inline'
+    if (data.data.totalHits > 40) {
+      refs.loadMoreBtn.style.display = 'inline';
     }
-});
+  });
 }
 
 function loadMoreHandler() {
   currentPage += 1;
-  fetchImages(currentPage, currentValue).then(data =>{
-    if((data.data.totalHits - currentPage * 40) <= 40){
+  fetchImages(currentPage, currentValue).then(data => {
+    if (data.data.totalHits - currentPage * 40 <= 40) {
       refs.loadMoreBtn.style.display = 'none';
-      Notiflix.Report.warning("We're sorry, but you've reached the end of search results.");
+      Notiflix.Report.warning(
+        "We're sorry, but you've reached the end of search results."
+      );
     }
     console.log(data.data.totalHits);
-    galleryMarkup(data.data.hits)
-  }
-  );
+    galleryMarkup(data.data.hits);
+  });
 }
 
 function galleryMarkup(array) {
@@ -65,7 +66,7 @@ function galleryMarkup(array) {
       }) => {
         return `
         <div class="photo-card">
-        <img src=${webformatURL} alt="${tags}" loading="lazy" />
+        <img src=${webformatURL} alt="${tags}" loading="lazy" width: 100px height: 70px/>
         <div class="info">
           <p class="info-item">
             <b>${likes}</b>
@@ -87,44 +88,5 @@ function galleryMarkup(array) {
     .join('');
 
   console.log(refs.gallery);
-  refs.gallery.insertAdjacentHTML('afterbegin', markup);
+  refs.gallery.insertAdjacentHTML('afterend', markup);
 }
-
-// Notiflix.Report.info("Sorry, there are no images matching your search query. Please try again.");
-// Notiflix.Report.warning("We're sorry, but you've reached the end of search results.");
-// Notiflix.Report.success("Hooray! We found totalHits images.");
-
-// const refs = {
-//     form: document.querySelector('#search-form'),
-//     input: document.querySelector('searchQuery'),
-//     gallery: document.querySelector('gallery'),
-//     loadMoreBtn: document.querySelector('load-more'),
-// }
-
-// refs.form.addEventListener('submit', submitHandler);
-// refs.loadMoreBtn.addEventListener('click', loadMoreHandler);
-
-// const gallery = new SimpleLightbox('.gallery a', {
-//     captions: true,
-//     captionSelector: 'img',
-//     captionPosition: 'bottom',
-//     captionsData: 'alt',
-//     captionDelay: 250,
-//   });
-
-//   function loadMoreHandler(){}
-
-//   function submitHandler(event){
-//     event.preventDefault();
-//     const searchQuery = event.currentTarget.elements.query.value;
-//     console.log(searchQuery);
-//     api.fetchPictures(searchQuery)
-//     .then (data => galleryMarkUp(data));
-//   }
-
-//   function galleryMarkup (){
-//     refs.gallery.innerHTML = galleryTemplate(data);
-
-//   }
-
-//   function clearGallery(){}

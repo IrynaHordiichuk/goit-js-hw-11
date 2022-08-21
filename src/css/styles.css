@@ -51,3 +51,8 @@ border-radius: 2px;
   display: inline-block;
   cursor: pointer;
 }
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+}
