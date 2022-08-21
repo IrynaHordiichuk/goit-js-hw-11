@@ -88,5 +88,5 @@ function galleryMarkup(array) {
     .join('');
 
   console.log(refs.gallery);
-  refs.gallery.insertAdjacentHTML('afterend', markup);
+  refs.gallery.insertAdjacentHTML('beforeend', markup);
 }
